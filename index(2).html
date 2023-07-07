@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("448271.jpg");
+            width: 100%;
+            overflow: hidden;
+        }
+        #clock{
+            height: 40vh;
+            width: 80vw;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 20vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgb(0, 56, 101);
+        }
+
+
+        #sun{
+            height: 150px;
+            width: 150px;
+            background-image: url("sun.png");
+            background-size: 152% 152%;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+            background-position: -40px -40px;
+            box-shadow: 5px 5px 10px #f98a01 , -5px -5px 10px #f98a01;
+
+            }
+
+            #moon{
+            height: 150px;
+            width: 150px;
+            background-image: url("moon.png");
+            background-size: 152% 152%;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 0;
+            background-position: -40px -40px;
+            box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.541) , -5px -5px 10px rgba(255, 255, 255, 0.541);
+                display: none;
+            }
+    
+    </style>
+</head>
+<body>
+
+    <div id="sun"></div>
+    <div id="moon"></div>
+    <div id="clock">
+        <span id="hour"></span>
+        <span class="rat">&nbsp;:&nbsp;</span>
+        <span id="min"></span>
+        <span class="rat">&nbsp;:&nbsp;</span>
+        <span id="sec"></span>
+    </div>
+    
+    <script>
+   
+        let i = 0;
+        var temp1 = 0;
+        var temp2 = 0;
+        function ref()
+        {
+            
+            let d = new Date();
+            i=(d.getHours()*60+d.getMinutes())*60+d.getSeconds();
+            setInterval(()=>{
+                
+                let d = new Date();
+
+                
+                //if(i == (12*60)*60)
+                //console.log('stop');
+                i++;
+                
+
+                document.querySelector('#hour').innerHTML = d.getHours();
+                document.querySelector('#min').innerHTML = d.getMinutes();
+                document.querySelector('#sec').innerHTML = d.getSeconds();
+                
+                document.querySelector('#sun').style.left = i/27+'px';
+                document.querySelector('#moon').style.left = i/27+'px';
+                if(d.getHours() <= 6)
+                document.querySelector('#sun').style.bottom = i/31+'px';
+                else if(d.getHours() < 12)
+                document.querySelector('#sun').style.bottom = -i/31+2*697+'px';
+                else if(d.getHours() <= 18)
+                document.querySelector('#moon').style.bottom = i/31+'px';
+                else
+                document.querySelector('#moon').style.bottom = -i/31+2*697+'px';
+                if(d.getHours() >= 12 && temp1 == 0)
+                {
+                    console.log("YES");
+                    document.querySelector('#sun').style.display = "none";
+                    document.querySelector('#moon').style.display = "block";
+                    document.querySelector('body').style.backgroundImage = "URL(\"nightsky.jpg\")";
+                    document.querySelector('#clock').style.color = "#554f4f";
+                    temp1=1;
+                    temp2 = 0;
+                    i=((d.getHours()-12)*60+d.getMinutes())*60+d.getSeconds();
+                }
+                else if(d.getHours() < 12 && temp2 == 0)
+                {
+                    document.querySelector('#moon').style.display = "none";
+                    document.querySelector('#sun').style.display = "block";
+                    document.querySelector('body').style.backgroundImage = "URL(\"448271.jpg\")";
+                    i=(d.getHours()*60+d.getMinutes())*60+d.getSeconds();
+                    temp1 = 0;
+                    temp2 = 1;
+                }
+                
+            
+            },1000);
+        }
+ 
+        ref();
+
+    </script>
+</body>
+</html>
